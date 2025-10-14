@@ -1,43 +1,56 @@
 package tests;
 
+import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
-public class RegistrationTests extends TestBase {
+public class RegistrationTests {
+
+    @BeforeAll
+    static void beforeAll() {
+        Configuration.browserSize = "1920x1080";
+        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.pageLoadStrategy = "eager";
+        Configuration.timeout = 5000; // default 4000
+    }
 
     @Test
-    void successfulRegistrationTest() {
+    void fillPracticeForm () {
         open("/automation-practice-form");
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-        executeJavaScript("$('#fixedban').remove()");
-        executeJavaScript("$('footer').remove()");
-
-        $("#firstName").setValue("Alex");
-        $("#lastName").setValue("Egorov");
-        $("#userEmail").setValue("alex@egorov.com");
-        $("#genterWrapper").$(byText("Other")).click();
-        $("#userNumber").setValue("1234567890");
+        $("#firstName").setValue("Vitaliy");
+        $("#lastName").setValue("Arthas");
+        $("#userEmail").setValue("vitaliyarthasovich@mail.ru");
+        $("#genterWrapper").$(byText("Male")).click();
+        $("#userNumber").setValue("8999999999");
         $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("July");
-        $(".react-datepicker__year-select").selectOption("2008");
-        $(".react-datepicker__day--030:not(.react-datepicker__day--outside-month)").click();
-        $("#subjectsInput").setValue("Math").pressEnter();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        $("#uploadPicture").uploadFromClasspath("img/1.png");
-        $("#currentAddress").setValue("Some address 1");
+        $(".react-datepicker__month-select").selectOption("October");
+        $(".react-datepicker__year-select").selectOption("1984");
+        $(".react-datepicker__month").$(byText("17")).click();
+        $("#subjectsInput").setValue("Maths").pressEnter();
+        $("#hobbiesWrapper").$(byText("Reading")).click();
+        $("#currentAddress").setValue("Venèsia");
         $("#state").click();
-        $("#stateCity-wrapper").$(byText("NCR")).click();
+        $("#react-select-3-option-2").click();
         $("#city").click();
-        $("#stateCity-wrapper").$(byText("Delhi")).click();
+        $("#react-select-4-option-0").click();
         $("#submit").click();
+        $("#uploadPicture").uploadFromClasspath("Locators_table.pdf");
 
-        $(".modal-dialog").should(appear);
-        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-        $(".table-responsive").shouldHave(text("Alex"), text("Egorov"),
-                text("alex@egorov.com"), text("1234567890"));
+        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text("Vitaliy Arthas"));
+        $(".table-responsive").$(byText("Student Email")).parent().shouldHave(text("vitaliyarthasovich@mail.ru"));
+        $(".table-responsive").$(byText("Gender")).parent().shouldHave(text("Male"));
+        $(".table-responsive").$(byText("Mobile")).parent().shouldHave(text("8999999999"));
+        $(".table-responsive").$(byText("Date of Birth")).parent().shouldHave(text("17 October,1984"));
+        $(".table-responsive").$(byText("Subjects")).parent().shouldHave(text("Maths"));
+        $(".table-responsive").$(byText("Hobbies")).parent().shouldHave(text("Reading"));
+        $(".table-responsive").$(byText("Picture")).parent().shouldHave(text("Locators_table.pdf"));
+        $(".table-responsive").$(byText("Address")).parent().shouldHave(text("Venèsia"));
+        $(".table-responsive").$(byText("State and City")).parent().shouldHave(text("Haryana Karnal"));
+
     }
+
 }

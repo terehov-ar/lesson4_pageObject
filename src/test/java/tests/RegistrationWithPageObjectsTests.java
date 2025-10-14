@@ -3,40 +3,84 @@ package tests;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
-
 public class RegistrationWithPageObjectsTests extends TestBase {
 
     RegistrationPage registrationPage = new RegistrationPage();
 
     @Test
-    void successfulRegistrationTest() {
+    void successFullRegistrationTest() {
         registrationPage.openPage()
-                .setFirstName("Alex")
-                .setLastName("Egorov")
-                .setEmail("alex@egorov.com")
-                .setGender("Other")
-                .setUserNumber("1234567890")
-                .setDateOfBirth("30", "July", "2008");
-
-        $("#subjectsInput").setValue("Math").pressEnter();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        $("#uploadPicture").uploadFromClasspath("img/1.png");
-        $("#currentAddress").setValue("Some address 1");
-        $("#state").click();
-        $("#stateCity-wrapper").$(byText("NCR")).click();
-        $("#city").click();
-        $("#stateCity-wrapper").$(byText("Delhi")).click();
-        $("#submit").click();
-
-        $(".modal-dialog").should(appear);
-        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-        $(".table-responsive").shouldHave(text("Alex"), text("Egorov"),
-                text("alex@egorov.com"), text("1234567890"));
-        registrationPage.checkResult("Student Name", "Alex Egorov")
-                .checkResult("Student Email", "alex@egorov.com");
+                .setFirstName("Vitaliy")
+                .setLastName("Arthas")
+                .setEmail("vitaliyarthasovich@mail.ru")
+                .setGender("Male")
+                .setUserNumber("8999999999")
+                .setDateOfBirth("17", "October", "1984")
+                .setSubject("Maths")
+                .setHobbies("Reading")
+                .uploadAttachment("Locators_table.pdf")
+                .setCurrentAddress("Манежная пл., 1, строение 2, Москва, 125009")
+                .setState("NCR")
+                .setCity("Noida")
+                .pressSubmit()
+                .checkFinishModalName()
+                .checkResult("Student Name", "Vitaliy Arthas")
+                .checkResult("Student Email", "vitaliyarthasovich@mail.ru")
+                .checkResult("Gender", "Male")
+                .checkResult("Mobile", "8999999999")
+                .checkResult("Date of Birth", "17 October,1984")
+                .checkResult("Subjects", "Maths")
+                .checkResult("Hobbies", "Reading")
+                .checkResult("Picture", "Locators_table.pdf")
+                .checkResult("Address", "Манежная пл., 1, строение 2, Москва, 125009")
+                .checkResult("State and City", "NCR Noida");
     }
+    @Test
+    void successMinRegistrationTest() {
+        registrationPage.openPage()
+                .setFirstName("Vitaliy")
+                .setLastName("Arthas")
+                .setGender("Male")
+                .setUserNumber("8999999999")
+                .pressSubmit()
+                .checkFinishModalName()
+                .checkResult("Student Name", "Vitaliy Arthas")
+                .checkResult("Gender", "Male")
+                .checkResult("Mobile", "8999999999")
+                .checkAttributeIsNull("Student Email")
+                .checkAttributeIsNull("Hobbies")
+                .checkAttributeIsNull("Picture")
+                .checkAttributeIsNull("Address")
+                .checkAttributeIsNull("State and City");
+
+    }
+
+    @Test
+    void negativeEmailCheckTest() {
+        registrationPage.openPage()
+                .setFirstName("Vitaliy")
+                .setLastName("Arthas")
+                .setGender("Male")
+                .setUserNumber("8999999999")
+                .checkPatternEmail()
+                .setEmail("testemailfrovalidation/gmail.com")
+                .pressSubmit()
+                .availabilityCheckFinishModal();
+    }
+
+    @Test
+    void negativePhoneCheckTest() {
+        registrationPage.openPage()
+                .setFirstName("Vitaliy")
+                .setLastName("Arthas")
+                .setGender("Male")
+                .checkMinMaxUserNumber()
+                .setUserNumber("899999999")
+                .pressSubmit()
+                .availabilityCheckFinishModal()
+                .setUserNumber("8999999912345")
+                .pressSubmit()
+                .checkFinishModalName();
+    }
+
 }
