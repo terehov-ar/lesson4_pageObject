@@ -1,5 +1,6 @@
 package tests;
 
+import data.TestData;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
 
@@ -7,46 +8,48 @@ public class RegistrationWithPageObjectsTests extends TestBase {
 
     RegistrationPage registrationPage = new RegistrationPage();
 
+    TestData testData = new TestData();
+
     @Test
     void successFullRegistrationTest() {
         registrationPage.openPage()
-                .setFirstName("Vitaliy")
-                .setLastName("Arthas")
-                .setEmail("vitaliyarthasovich@mail.ru")
-                .setGender("Male")
-                .setUserNumber("8999999999")
+                .setFirstName(testData.firstName)
+                .setLastName(testData.lastName)
+                .setEmail(testData.email)
+                .setGender(testData.gender)
+                .setUserNumber(testData.number)
                 .setDateOfBirth("17", "October", "1984")
-                .setSubject("Maths")
-                .setHobbies("Reading")
+                .setSubject(testData.subject)
+                .setHobbies(testData.hobbies)
                 .uploadAttachment("Locators_table.pdf")
-                .setCurrentAddress("Манежная пл., 1, строение 2, Москва, 125009")
-                .setState("NCR")
-                .setCity("Noida")
+                .setCurrentAddress(testData.address)
+                .setState(testData.state)
+                .setCity(testData.city)
                 .pressSubmit()
                 .checkFinishModalName()
-                .checkResult("Student Name", "Vitaliy Arthas")
-                .checkResult("Student Email", "vitaliyarthasovich@mail.ru")
-                .checkResult("Gender", "Male")
-                .checkResult("Mobile", "8999999999")
+                .checkResult("Student Name", testData.firstName + " " + testData.lastName)
+                .checkResult("Student Email", testData.email)
+                .checkResult("Gender", testData.gender)
+                .checkResult("Mobile", testData.number)
                 .checkResult("Date of Birth", "17 October,1984")
-                .checkResult("Subjects", "Maths")
-                .checkResult("Hobbies", "Reading")
+                .checkResult("Subjects", testData.subject)
+                .checkResult("Hobbies", testData.hobbies)
                 .checkResult("Picture", "Locators_table.pdf")
-                .checkResult("Address", "Манежная пл., 1, строение 2, Москва, 125009")
-                .checkResult("State and City", "NCR Noida");
+                .checkResult("Address", testData.address)
+                .checkResult("State and City", testData.state + " " + testData.city);
     }
     @Test
     void successMinRegistrationTest() {
         registrationPage.openPage()
-                .setFirstName("Vitaliy")
-                .setLastName("Arthas")
-                .setGender("Male")
-                .setUserNumber("8999999999")
+                .setFirstName(testData.firstName)
+                .setLastName(testData.lastName)
+                .setGender(testData.gender)
+                .setUserNumber(testData.number)
                 .pressSubmit()
                 .checkFinishModalName()
-                .checkResult("Student Name", "Vitaliy Arthas")
-                .checkResult("Gender", "Male")
-                .checkResult("Mobile", "8999999999")
+                .checkResult("Student Name", testData.firstName + " " + testData.lastName)
+                .checkResult("Gender", testData.gender)
+                .checkResult("Mobile", testData.number)
                 .checkAttributeIsNull("Student Email")
                 .checkAttributeIsNull("Hobbies")
                 .checkAttributeIsNull("Picture")
@@ -58,12 +61,12 @@ public class RegistrationWithPageObjectsTests extends TestBase {
     @Test
     void negativeEmailCheckTest() {
         registrationPage.openPage()
-                .setFirstName("Vitaliy")
-                .setLastName("Arthas")
-                .setGender("Male")
-                .setUserNumber("8999999999")
+                .setFirstName(testData.firstName)
+                .setLastName(testData.lastName)
+                .setGender(testData.gender)
+                .setUserNumber(testData.number)
                 .checkPatternEmail()
-                .setEmail("testemailfrovalidation/gmail.com")
+                .setEmail(testData.address)
                 .pressSubmit()
                 .availabilityCheckFinishModal();
     }
@@ -71,16 +74,15 @@ public class RegistrationWithPageObjectsTests extends TestBase {
     @Test
     void negativePhoneCheckTest() {
         registrationPage.openPage()
-                .setFirstName("Vitaliy")
-                .setLastName("Arthas")
-                .setGender("Male")
+                .setFirstName(testData.firstName)
+                .setLastName(testData.lastName)
+                .setGender(testData.gender)
                 .checkMinMaxUserNumber()
-                .setUserNumber("899999999")
+                .setUserNumber(testData.notValidMinNumber)
                 .pressSubmit()
                 .availabilityCheckFinishModal()
-                .setUserNumber("8999999912345")
+                .setUserNumber(testData.notValidMaxNumber)
                 .pressSubmit()
                 .checkFinishModalName();
     }
-
 }
