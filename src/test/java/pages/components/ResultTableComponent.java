@@ -11,6 +11,6 @@ public class ResultTableComponent {
     }
 
     public void checkNullResult(String key) {
-        $(".table-responsive").$(byText(key)).parent().shouldHave(exactText(""));
+        $(".table-responsive").$(byText(key)).parent().lastChild().shouldHave(exactText(""));
     }
 }
