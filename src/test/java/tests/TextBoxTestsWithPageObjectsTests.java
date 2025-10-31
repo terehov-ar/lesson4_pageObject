@@ -11,6 +11,7 @@ public class TextBoxTestsWithPageObjectsTests extends TestBase {
     void fillFormTest() {
 
         testBoxPage.openPage()
+                .removeBanners()
                 .setUserName("Alex")
                 .setUserEmail("alex@egorov.com")
                 .setCurrentAddress("Some street 1")

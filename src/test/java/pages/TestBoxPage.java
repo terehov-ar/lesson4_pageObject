@@ -1,10 +1,10 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import pages.utils.JsSnippetsUtils;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class TestBoxPage {
     private SelenideElement firstNameInput = $("#firstName"),
@@ -18,12 +18,16 @@ public class TestBoxPage {
             resultCurrentAddress = $("#output #currentAddress"),
             resultPermanentAddress = $("#output #permanentAddress");
 
+    JsSnippetsUtils jsSnippetsUtils = new JsSnippetsUtils();
 
     public TestBoxPage openPage() {
         open("/text-box");
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-        executeJavaScript("$('#fixedban').remove()");
-        executeJavaScript("$('footer').remove()");
+
+        return this;
+    }
+
+    public TestBoxPage removeBanners () {
+        jsSnippetsUtils.removeBanners();
 
         return this;
     }

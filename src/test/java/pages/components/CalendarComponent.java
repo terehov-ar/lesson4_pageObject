@@ -1,13 +1,23 @@
 package pages.components;
 
-import pages.RegistrationPage;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 public class CalendarComponent {
+
+    private final SelenideElement monthInput = $(".react-datepicker__month-select"),
+            yearInput = $(".react-datepicker__year-select");
+
+    private final ElementsCollection dayCollectionInput = $$(".react-datepicker__day:not(.react-datepicker__day--outside-month)");
+
     public void setDate(String day, String month, String year) {
-        $(".react-datepicker__month-select").selectOption(month);
-        $(".react-datepicker__year-select").selectOption(year);
-        $(".react-datepicker__day--0" + day + ":not(.react-datepicker__day--outside-month)").click();
+        monthInput.selectOption(month);
+        yearInput.selectOption(year);
+        dayCollectionInput.findBy(text(day)).click();
     }
+
 }

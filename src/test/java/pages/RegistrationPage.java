@@ -3,6 +3,7 @@ package pages;
 import com.codeborne.selenide.SelenideElement;
 import pages.components.CalendarComponent;
 import pages.components.ResultTableComponent;
+import pages.utils.JsSnippetsUtils;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
@@ -26,9 +27,16 @@ public class RegistrationPage {
 
     CalendarComponent calendarComponent = new CalendarComponent();
     ResultTableComponent resultTable = new ResultTableComponent();
+    JsSnippetsUtils jsSnippetsUtils = new JsSnippetsUtils();
 
     public RegistrationPage openPage() {
         open("/automation-practice-form");
+
+        return this;
+    }
+
+    public RegistrationPage removeBanners () {
+        jsSnippetsUtils.removeBanners();
 
         return this;
     }

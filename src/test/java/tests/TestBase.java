@@ -6,12 +6,11 @@ import org.junit.jupiter.api.BeforeAll;
 public class TestBase {
 
     @BeforeAll
-    static void beforeAll() {
+    static void setupEnvironment() {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 10000;
-//        Configuration.holdBrowserOpen = true;
     }
 
 }
