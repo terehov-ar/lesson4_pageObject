@@ -1,6 +1,7 @@
 package tests;
 
 import data.TestData;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
 
@@ -11,6 +12,7 @@ public class RegistrationWithPageObjectsTests extends TestBase {
     TestData testData = new TestData();
 
     @Test
+    @Tag("WEB_positiveCase")
     void successFullRegistrationTest() {
 
         registrationPage.openPage()
@@ -40,9 +42,12 @@ public class RegistrationWithPageObjectsTests extends TestBase {
                 .checkResult("Address", testData.address)
                 .checkResult("State and City", testData.state + " " + testData.city);
     }
+
     @Test
+    @Tag("WEB_positiveCase")
     void successMinRegistrationTest() {
         registrationPage.openPage()
+                .removeBanners()
                 .setFirstName(testData.firstName)
                 .setLastName(testData.lastName)
                 .setGender(testData.gender)
@@ -61,8 +66,10 @@ public class RegistrationWithPageObjectsTests extends TestBase {
     }
 
     @Test
+    @Tag("WEB_negativeCase")
     void negativeEmailCheckTest() {
         registrationPage.openPage()
+                .removeBanners()
                 .setFirstName(testData.firstName)
                 .setLastName(testData.lastName)
                 .setGender(testData.gender)
@@ -74,8 +81,10 @@ public class RegistrationWithPageObjectsTests extends TestBase {
     }
 
     @Test
+    @Tag("WEB_negativeCase")
     void negativePhoneCheckTest() {
         registrationPage.openPage()
+                .removeBanners()
                 .setFirstName(testData.firstName)
                 .setLastName(testData.lastName)
                 .setGender(testData.gender)
