@@ -24,6 +24,7 @@ public class TestBase {
         Configuration.timeout = 10000;
         SelenideLogger.addListener("allureListener", new AllureSelenide());
         Configuration.remote = remoteAddress;
+        Configuration.browser = System.getProperty("browser", "chrome");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                 "enableVNC", true,
