@@ -14,6 +14,8 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public class TestBase {
 
+    public static String remoteAddress = System.getProperty("remoteAddress");
+
     @BeforeAll
     static void setupEnvironment() {
         Configuration.baseUrl = "https://demoqa.com";
@@ -21,7 +23,7 @@ public class TestBase {
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 10000;
         SelenideLogger.addListener("allureListener", new AllureSelenide());
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        Configuration.remote = remoteAddress;
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                 "enableVNC", true,
