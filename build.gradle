@@ -33,6 +33,7 @@ dependencies {
 }
 
 tasks.withType(Test) {
+    systemProperties(System.getProperties())
     useJUnitPlatform()
 
     testLogging {
@@ -52,5 +53,11 @@ tasks.register('web_positive_test', Test) {
 tasks.register('web_negative_test', Test) {
     useJUnitPlatform {
         includeTags('WEB_negativeCase')
+    }
+}
+
+tasks.register('property_test', Test) {
+    useJUnitPlatform {
+        includeTags("property")
     }
 }
