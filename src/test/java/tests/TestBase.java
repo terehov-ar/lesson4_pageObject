@@ -24,8 +24,8 @@ public class TestBase {
         SelenideLogger.addListener("allureListener", new AllureSelenide());
         Configuration.remote = remoteAddress;
         Configuration.browser = System.getProperty("browser", "chrome");
-        Configuration.browserVersion = System.getProperty("version");
-        Configuration.browserSize = System.getProperty("size","1920x1080");
+        Configuration.browserVersion = System.getProperty("browserVersion");
+        Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                 "enableVNC", true,
