@@ -19,12 +19,13 @@ public class TestBase {
     @BeforeAll
     static void setupEnvironment() {
         Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 10000;
         SelenideLogger.addListener("allureListener", new AllureSelenide());
         Configuration.remote = remoteAddress;
         Configuration.browser = System.getProperty("browser", "chrome");
+        Configuration.browserVersion = System.getProperty("version");
+        Configuration.browserSize = System.getProperty("size","1920x1080");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                 "enableVNC", true,
