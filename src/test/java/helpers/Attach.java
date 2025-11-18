@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import static com.codeborne.selenide.Selenide.sessionId;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.openqa.selenium.logging.LogType.BROWSER;
-import static tests.TestBase.remoteAddress;
 
 public class Attach {
     @Attachment(value = "{attachName}", type = "image/png")
@@ -45,7 +44,9 @@ public class Attach {
     }
 
     public static URL getVideoUrl() {
-        String videoUrl = "https://" + remoteAddress + "/video/" + sessionId() + ".mp4";
+        String selenoidBaseUrl = System.getProperty("selenoidBaseUrl", "selenoid.autotests.cloud");
+        String videoUrl = "https://" + selenoidBaseUrl + "/video/" + sessionId() + ".mp4";
+
         try {
             return new URL(videoUrl);
         } catch (MalformedURLException e) {
