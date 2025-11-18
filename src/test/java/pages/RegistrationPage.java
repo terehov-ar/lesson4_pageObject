@@ -133,7 +133,7 @@ public class RegistrationPage {
 
     @Step("Нажимаем кнопку Submit")
     public RegistrationPage pressSubmit () {
-        submitButton.click();
+        submitButton.scrollTo().click();
 
         return this;
     }
